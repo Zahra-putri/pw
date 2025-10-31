@@ -1,0 +1,162 @@
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\app.py", line 1536, in __call__
+    ) -> cabc.Iterable[bytes]:
+        """The WSGI server calls the Flask application object as the
+        WSGI application. This calls :meth:`wsgi_app`, which can be
+        wrapped to apply middleware.
+        """
+        return self.wsgi_app(environ, start_response)
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\app.py", line 1514, in wsgi_app
+            try:
+                ctx.push()
+                response = self.full_dispatch_request()
+            except Exception as e:
+                error = e
+                response = self.handle_exception(e)
+            except:  # noqa: B001
+                error = sys.exc_info()[1]
+                raise
+            return response(environ, start_response)
+        finally:
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\app.py", line 1511, in wsgi_app
+        ctx = self.request_context(environ)
+        error: BaseException | None = None
+        try:
+            try:
+                ctx.push()
+                response = self.full_dispatch_request()
+            except Exception as e:
+                error = e
+                response = self.handle_exception(e)
+            except:  # noqa: B001
+                error = sys.exc_info()[1]
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+            request_started.send(self, _async_wrapper=self.ensure_sync)
+            rv = self.preprocess_request()
+            if rv is None:
+                rv = self.dispatch_request()
+        except Exception as e:
+            rv = self.handle_user_exception(e)
+        return self.finalize_request(rv)
+ 
+    def finalize_request(
+        self,
+        rv: ft.ResponseReturnValue | HTTPException,
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+ 
+        try:
+            request_started.send(self, _async_wrapper=self.ensure_sync)
+            rv = self.preprocess_request()
+            if rv is None:
+                rv = self.dispatch_request()
+        except Exception as e:
+            rv = self.handle_user_exception(e)
+        return self.finalize_request(rv)
+ 
+    def finalize_request(
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\app.py", line 902, in dispatch_request
+            and req.method == "OPTIONS"
+        ):
+            return self.make_default_options_response()
+        # otherwise dispatch to the handler for that endpoint
+        view_args: dict[str, t.Any] = req.view_args  # type: ignore[assignment]
+        return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+ 
+    def full_dispatch_request(self) -> Response:
+        """Dispatches the request and on top of that performs request
+        pre and postprocessing as well as HTTP exception catching and
+        error handling.
+File "c:\Users\LABKOM\Downloads\m6\my.py", line 15, in home
+def home():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM user")
+    data = cur.fetchall()
+    cur.close()
+    return render_template('home.html', users=data)
+ 
+if __name__ == '__main__':
+    app.run(debug=True)
+ 
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\templating.py", line 149, in render_template
+    :param template_name_or_list: The name of the template to render. If
+        a list is given, the first name to exist will be rendered.
+    :param context: The variables to make available in the template.
+    """
+    app = current_app._get_current_object()  # type: ignore[attr-defined]
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+    return _render(app, template, context)
+ 
+ 
+def render_template_string(source: str, **context: t.Any) -> str:
+    """Render a template from the given source string with the given
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+        is given, or :meth:`get_template` if one name is given.
+ 
+        .. versionadded:: 2.3
+        """
+        if isinstance(template_name_or_list, (str, Undefined)):
+            return self.get_template(template_name_or_list, parent, globals)
+        elif isinstance(template_name_or_list, Template):
+            return template_name_or_list
+        return self.select_template(template_name_or_list, parent, globals)
+ 
+    def from_string(
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\jinja2\environment.py", line 1016, in get_template
+        if isinstance(name, Template):
+            return name
+        if parent is not None:
+            name = self.join_path(name, parent)
+ 
+        return self._load_template(name, globals)
+ 
+    @internalcode
+    def select_template(
+        self,
+        names: t.Iterable[t.Union[str, "Template"]],
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\jinja2\environment.py", line 975, in _load_template
+                if globals:
+                    template.globals.update(globals)
+ 
+                return template
+ 
+        template = self.loader.load(self, name, self.make_globals(globals))
+ 
+        if self.cache is not None:
+            self.cache[cache_key] = template
+        return template
+ 
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\jinja2\loaders.py", line 126, in load
+        if globals is None:
+            globals = {}
+ 
+        # first we try to get the source for this template together
+        # with the filename and the uptodate function.
+        source, filename, uptodate = self.get_source(environment, name)
+ 
+        # try to load the code from the bytecode cache if there is a
+        # bytecode cache configured.
+        bcc = environment.bytecode_cache
+        if bcc is not None:
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\templating.py", line 65, in get_source
+    def get_source(
+        self, environment: BaseEnvironment, template: str
+    ) -> tuple[str, str | None, t.Callable[[], bool] | None]:
+        if self.app.config["EXPLAIN_TEMPLATE_LOADING"]:
+            return self._get_source_explained(environment, template)
+        return self._get_source_fast(environment, template)
+ 
+    def _get_source_explained(
+        self, environment: BaseEnvironment, template: str
+    ) -> tuple[str, str | None, t.Callable[[], bool] | None]:
+        attempts = []
+File "C:\laragon\bin\python\python-3.10\lib\site-packages\flask\templating.py", line 99, in _get_source_fast
+        for _srcobj, loader in self._iter_loaders(template):
+            try:
+                return loader.get_source(environment, template)
+            except TemplateNotFound:
+                continue
+        raise TemplateNotFound(template)
+ 
+    def _iter_loaders(self, template: str) -> t.Iterator[tuple[Scaffold, BaseLoader]]:
+        loader = self.app.jinja_loader
+        if loader is not None:
+            yield self.app, loader
